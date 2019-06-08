@@ -2,6 +2,7 @@ package com.davidholiday.camel.harness.context;
 
 
 import com.davidholiday.camel.harness.processors.SampleGetServiceResponseMockProcessor;
+import com.davidholiday.camel.harness.processors.VerneMqProducerProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,9 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
 
     // processor names
     public static final String SAMPLE_GET_SERVICE_RESPONSE_MOCK_PROCESSOR_NAME = "sampleGetServiceResponseMockProcessor";
+    public static final String VERNEMQ_PRODUCER_PROCESSOR = "vernemqProducerProcessor";
+    public static final String VERNEMQ_CONSUMER_PROCESSOR = "vernemqConsumerProcessor";
+
 
     // processor constructor parameter names
     public static final String SAMPLE_GET_SERVICE_RESPONSE_MOCKFILE =
@@ -60,6 +64,11 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
         registry.bind(
                 SAMPLE_GET_SERVICE_RESPONSE_MOCK_PROCESSOR_NAME,
                 new SampleGetServiceResponseMockProcessor(SAMPLE_GET_SERVICE_RESPONSE_MOCKFILE)
+        );
+
+        registry.bind(
+                VERNEMQ_PRODUCER_PROCESSOR,
+                new VerneMqProducerProcessor()
         );
 
 
