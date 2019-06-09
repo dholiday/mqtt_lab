@@ -4,7 +4,9 @@ package com.davidholiday.camel.harness.processors;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -14,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class VerneMqProducerProcessor implements Processor {
+public class VerneMqConsumerProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerneMqProducerProcessor.class.getName());
 
@@ -34,13 +36,12 @@ public class VerneMqProducerProcessor implements Processor {
             mqttClient.connect(connOpts);
             LOGGER.info("connected to broker: {}", broker);
 
-            MqttMessage mqttMessage = new MqttMessage(message_content.getBytes());
-            mqttMessage.setQos(quality_of_service);
-            mqttClient.publish(topic, mqttMessage);
-            LOGGER.info("published to topic: {}    message {}", topic, message_content);
+            mqttClient.subscribe(topic);
+            LOGGER.info("connecting to topic: {}", topic);
+            mqttClient.setCallback(new MessageHandler());
 
-            mqttClient.disconnect();
-            LOGGER.info("disconnected from broker: {}", broker);
+            //mqttClient.disconnect();
+            //LOGGER.info("disconnected from broker: {}", broker);
 
         } catch(MqttException me) {
             LOGGER.error("reason "+me.getReasonCode());
@@ -50,6 +51,26 @@ public class VerneMqProducerProcessor implements Processor {
             LOGGER.error("excep "+me);
         }
 
+    }
+
+    public class MessageHandler implements MqttCallback {
+
+        @Override
+        public void connectionLost(Throwable cause) {
+            LOGGER.error("connection lost error: {}", cause.toString());
+        }
+
+        @Override
+        public void messageArrived(String topic, MqttMessage message) throws Exception {
+            LOGGER.info("message arrived on topic: {}", topic);
+            LOGGER.info("message is: {}", new String(message.getPayload()));
+        }
+
+        @Override
+        public void deliveryComplete(IMqttDeliveryToken token) {
+            // TODO Auto-generated method stub
+
+        }
     }
 
 }

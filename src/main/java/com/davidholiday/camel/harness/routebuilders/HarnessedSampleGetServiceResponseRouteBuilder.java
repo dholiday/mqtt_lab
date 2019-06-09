@@ -28,7 +28,9 @@ public class HarnessedSampleGetServiceResponseRouteBuilder extends RouteBuilderH
 
         // resolve the correct connection string given runtime context
         String serviceResponseConnectionString =
-                ConnectionStringFactory.getConnectionStringOrThrow(ConnectionStringFactory.SAMPLE_GET_SERVICE_RESPONSE_CONNECTION_STRING_KEY);
+                ConnectionStringFactory.getConnectionStringOrThrow(
+                        ConnectionStringFactory.SAMPLE_GET_SERVICE_RESPONSE_CONNECTION_STRING_KEY
+                );
 
 
         /*

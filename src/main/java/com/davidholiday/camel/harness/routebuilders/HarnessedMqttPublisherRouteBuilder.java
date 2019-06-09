@@ -3,13 +3,12 @@ package com.davidholiday.camel.harness.routebuilders;
 
 import com.davidholiday.camel.harness.context.AppContextLifecycle;
 import com.davidholiday.camel.harness.routing.RouteBuilderHarness;
-import com.davidholiday.camel.harness.util.ConnectionStringFactory;
 
 
-public class HarnessedMqttLoopRouteBuilder extends RouteBuilderHarness {
+public class HarnessedMqttPublisherRouteBuilder extends RouteBuilderHarness {
 
-    public HarnessedMqttLoopRouteBuilder() {
-        super(HarnessedMqttLoopRouteBuilder.class.getSimpleName(), false);
+    public HarnessedMqttPublisherRouteBuilder() {
+        super(HarnessedMqttPublisherRouteBuilder.class.getSimpleName(), false);
     }
 
     public void configure() throws Exception {

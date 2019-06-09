@@ -2,11 +2,14 @@ package com.davidholiday.camel.harness.context;
 
 
 import com.davidholiday.camel.harness.processors.SampleGetServiceResponseMockProcessor;
+import com.davidholiday.camel.harness.processors.VerneMqConsumerProcessor;
 import com.davidholiday.camel.harness.processors.VerneMqProducerProcessor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.apache.camel.impl.JndiRegistry;
+import org.apache.camel.Processor;
 
 import org.apache.camel.component.servletlistener.CamelContextLifecycle;
 import org.apache.camel.component.servletlistener.ServletCamelContext;
@@ -71,8 +74,17 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
                 new VerneMqProducerProcessor()
         );
 
+        registry.bind(
+                VERNEMQ_CONSUMER_PROCESSOR,
+                new VerneMqConsumerProcessor()
+        );
 
         //...
+
+
+        // FIXME this is a bit dirty...
+        Processor verneMqConsumerProcessor = (Processor)registry.lookupByName(VERNEMQ_CONSUMER_PROCESSOR);
+        verneMqConsumerProcessor.process(null);
 
     }
 
@@ -137,7 +149,6 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
 
         // ConfigurationChangeListener myConfigurationChangeListener = new ConfigurationChangeListener(...)
         // ConfigurationManager.getConfigInstance().addConfigurationListener(myConfigurationChangeListener);
-
     }
 
 }
