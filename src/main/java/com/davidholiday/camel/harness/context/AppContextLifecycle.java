@@ -69,22 +69,8 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
                 new SampleGetServiceResponseMockProcessor(SAMPLE_GET_SERVICE_RESPONSE_MOCKFILE)
         );
 
-        registry.bind(
-                VERNEMQ_PRODUCER_PROCESSOR,
-                new VerneMqProducerProcessor()
-        );
-
-        registry.bind(
-                VERNEMQ_CONSUMER_PROCESSOR,
-                new VerneMqConsumerProcessor()
-        );
-
         //...
 
-
-        // FIXME this is a bit dirty...
-        //Processor verneMqConsumerProcessor = (Processor)registry.lookupByName(VERNEMQ_CONSUMER_PROCESSOR);
-        //verneMqConsumerProcessor.process(null);
 
     }
 

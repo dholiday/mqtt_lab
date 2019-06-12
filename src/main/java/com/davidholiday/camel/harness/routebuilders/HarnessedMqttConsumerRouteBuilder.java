@@ -1,6 +1,5 @@
 package com.davidholiday.camel.harness.routebuilders;
 
-import com.davidholiday.camel.harness.context.AppContextLifecycle;
 import com.davidholiday.camel.harness.routing.RouteBuilderHarness;
 import com.davidholiday.camel.harness.util.ConnectionStringFactory;
 
@@ -24,19 +23,20 @@ public class HarnessedMqttConsumerRouteBuilder extends RouteBuilderHarness {
         restConfiguration().component("servlet")
                            .dataFormatProperty("prettyPrint", "true");
 
-        String mqttConsumerConnectionString =
-                ConnectionStringFactory.getConnectionStringOrThrow(AppContextLifecycle.VERNEMQ_CONSUMER_PROCESSOR);
+        String mqttConnectionString =ConnectionStringFactory.getConnectionStringOrThrow(
+                ConnectionStringFactory.VERNEMQ_CONNECTION_STRING_KEY
+        );
 
         /*
         routes
          */
 
-        from("direct:in").routeId(FROM_ROUTE_ID)
-                             .to(BUSINESS_LOGIC_ROUTE_FROM_NAME);
+        from(mqttConnectionString).routeId(FROM_ROUTE_ID)
+                                          .to(BUSINESS_LOGIC_ROUTE_FROM_NAME);
 
         from(BUSINESS_LOGIC_ROUTE_FROM_NAME).routeId(BUSINESS_LOGIC_ROUTE_ID)
                                             .description(BUSINESS_LOGIC_ROUTE_DESCRIPTION)
-                                            .to(mqttConsumerConnectionString);
+                                            .log("received messasge \n${body}");
     }
 
 

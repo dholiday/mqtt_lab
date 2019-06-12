@@ -1,8 +1,8 @@
 package com.davidholiday.camel.harness.routebuilders;
 
 
-import com.davidholiday.camel.harness.context.AppContextLifecycle;
 import com.davidholiday.camel.harness.routing.RouteBuilderHarness;
+import com.davidholiday.camel.harness.util.ConnectionStringFactory;
 
 
 public class HarnessedMqttPublisherRouteBuilder extends RouteBuilderHarness {
@@ -20,7 +20,9 @@ public class HarnessedMqttPublisherRouteBuilder extends RouteBuilderHarness {
         restConfiguration().component("servlet")
                            .dataFormatProperty("prettyPrint", "true");
 
-        String mqttProducerProcessorName = "bean:" + AppContextLifecycle.VERNEMQ_PRODUCER_PROCESSOR;
+        String mqttConnectionString =ConnectionStringFactory.getConnectionStringOrThrow(
+                ConnectionStringFactory.VERNEMQ_CONNECTION_STRING_KEY
+        );
 
         /*
         routes
@@ -35,8 +37,7 @@ public class HarnessedMqttPublisherRouteBuilder extends RouteBuilderHarness {
 
         from(BUSINESS_LOGIC_ROUTE_FROM_NAME).routeId(BUSINESS_LOGIC_ROUTE_ID)
                                             .description(BUSINESS_LOGIC_ROUTE_DESCRIPTION)
-                                            .to(mqttProducerProcessorName)
-                                            .log("exchange body is now: ${body}");
+                                            .to(mqttConnectionString);
     }
 
 }
