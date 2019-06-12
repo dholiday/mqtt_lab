@@ -1,6 +1,7 @@
 package com.davidholiday.camel.harness.processors;
 
 
+import com.davidholiday.camel.harness.config.Properties;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
@@ -20,11 +21,10 @@ public class VerneMqProducerProcessor implements Processor {
 
     public void process(Exchange exchange) {
 
-        // TODO move this to the config file
-        String topic = "mqtt_lab_topic";
+        String topic = Properties.MQTT_TOPIC_PROPERTY.get();
         String message_content = "mqtt_message_content";
-        int quality_of_service = 2; // 0, 1, 2
-        String broker = "tcp://localhost:32799";
+        int quality_of_service = new Integer(Properties.MQTT_QOS_PROPERTY.get()); // 0, 1, 2
+        String broker = Properties.MQTT_BROKER_PROPERTY.get();
         String clientId = this.toString();
         MemoryPersistence memoryPersistence = new MemoryPersistence();
 

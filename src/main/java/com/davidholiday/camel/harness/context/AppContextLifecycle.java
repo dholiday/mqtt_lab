@@ -83,8 +83,8 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
 
 
         // FIXME this is a bit dirty...
-        Processor verneMqConsumerProcessor = (Processor)registry.lookupByName(VERNEMQ_CONSUMER_PROCESSOR);
-        verneMqConsumerProcessor.process(null);
+        //Processor verneMqConsumerProcessor = (Processor)registry.lookupByName(VERNEMQ_CONSUMER_PROCESSOR);
+        //verneMqConsumerProcessor.process(null);
 
     }
 
