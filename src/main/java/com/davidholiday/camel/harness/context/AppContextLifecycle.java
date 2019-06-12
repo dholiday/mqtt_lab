@@ -40,8 +40,8 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
 
     // processor names
     public static final String SAMPLE_GET_SERVICE_RESPONSE_MOCK_PROCESSOR_NAME = "sampleGetServiceResponseMockProcessor";
-    public static final String VERNEMQ_PRODUCER_PROCESSOR = Properties.MQTT_PRODUCER_NAME_PROPERTY.get();
-    public static final String VERNEMQ_CONSUMER_PROCESSOR = Properties.MQTT_CONSUMER_NAME_PROPERTY.get();
+//    public static final String VERNEMQ_PRODUCER_PROCESSOR = Properties.MQTT_PRODUCER_NAME_PROPERTY.get();
+//    public static final String VERNEMQ_CONSUMER_PROCESSOR = Properties.MQTT_CONSUMER_NAME_PROPERTY.get();
 
 
     // processor constructor parameter names

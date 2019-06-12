@@ -8,7 +8,7 @@
     <!--  -->
     <context-param>
         <param-name>CamelContextLifecycle</param-name>
-        <param-value>com.davidholiday.camel.harness.context.HarnessedAppContextLifecycleWithStopSampleRoute</param-value>
+        <param-value>com.davidholiday.camel.harness.context.HarnessedAppContextLifecycle</param-value>
     </context-param>
 
     <!-- location of Camel route builder(s) ** this can also be a route xml file w/o the packagescan directive ** -->

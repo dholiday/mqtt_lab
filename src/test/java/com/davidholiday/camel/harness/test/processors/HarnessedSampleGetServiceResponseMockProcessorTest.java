@@ -2,7 +2,7 @@ package com.davidholiday.camel.harness.test.processors;
 
 
 import com.davidholiday.camel.harness.context.AppContextLifecycle;
-import com.davidholiday.camel.harness.context.HarnessedAppContextLifecycleWithStopSampleRoute;
+import com.davidholiday.camel.harness.context.HarnessedAppContextLifecycle;
 
 import com.davidholiday.camel.harness.processors.SampleGetServiceResponseMockProcessor;
 
@@ -28,8 +28,8 @@ public class HarnessedSampleGetServiceResponseMockProcessorTest extends Processo
             new SampleGetServiceResponseMockProcessor(AppContextLifecycle.SAMPLE_GET_SERVICE_RESPONSE_MOCKFILE);
 
     // this is what populates the JNDI registry the test(s) will use
-    private static final HarnessedAppContextLifecycleWithStopSampleRoute HARNESSED_CAMEL_CONTEXT_LIFECYCLE =
-            new HarnessedAppContextLifecycleWithStopSampleRoute();
+    private static final HarnessedAppContextLifecycle HARNESSED_CAMEL_CONTEXT_LIFECYCLE =
+            new HarnessedAppContextLifecycle();
 
     // this constructor is how we inject the thing we want to test and the jndi registry we want to use when those tests
     // are running into the ProcessorTestHarness

@@ -53,16 +53,29 @@ public class Properties {
                     "mqtt.broker.local"
             );
 
-    public static final DynamicStringProperty MQTT_PRODUCER_NAME_PROPERTY =
+    public static final DynamicStringProperty MQTT_PRODUCER_ROUTE_ENABLED_PROPERTY =
             getOrGetDynamicStringProperty(
-                    "mqtt.producer.processor.name",
-                    "mqtt.producer.processor.name.local"
+                    "mqtt.producer.route.enabled",
+                    "mqtt.producer.route.enabled.local"
             );
 
-    public static final DynamicStringProperty MQTT_CONSUMER_NAME_PROPERTY =
+    public static final DynamicStringProperty MQTT_CONSUMER_ROUTE_ENABLED_PROPERTY =
             getOrGetDynamicStringProperty(
-                    "mqtt.consumer.processor.name",
-                    "mqtt.consumer.processor.name.local"
+                    "mqtt.consumer.route.enabled",
+                    "mqtt.consumer.route.enabled.local"
             );
+
+    // unused for now as we're using the camel component for this
+//    public static final DynamicStringProperty MQTT_PRODUCER_NAME_PROPERTY =
+//            getOrGetDynamicStringProperty(
+//                    "mqtt.producer.processor.name",
+//                    "mqtt.producer.processor.name.local"
+//            );
+//
+//    public static final DynamicStringProperty MQTT_CONSUMER_NAME_PROPERTY =
+//            getOrGetDynamicStringProperty(
+//                    "mqtt.consumer.processor.name",
+//                    "mqtt.consumer.processor.name.local"
+//            );
 
 }

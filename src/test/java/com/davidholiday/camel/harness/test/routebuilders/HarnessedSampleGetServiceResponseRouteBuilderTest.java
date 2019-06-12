@@ -1,7 +1,7 @@
 package com.davidholiday.camel.harness.test.routebuilders;
 
 
-import com.davidholiday.camel.harness.context.HarnessedAppContextLifecycleWithStopSampleRoute;
+import com.davidholiday.camel.harness.context.HarnessedAppContextLifecycle;
 import com.davidholiday.camel.harness.routebuilders.HarnessedSampleGetServiceResponseRouteBuilder;
 import com.google.gson.Gson;
 
@@ -37,7 +37,7 @@ public class HarnessedSampleGetServiceResponseRouteBuilderTest extends Harnessed
 
     // this is what populates the JNDI registry the test(s) will use
     private static final AppContextLifecycleHarness HARNESSED_CAMEL_CONTEXT_LIFECYCLE =
-            new HarnessedAppContextLifecycleWithStopSampleRoute();
+            new HarnessedAppContextLifecycle();
 
     // inject camel objects into harness via common constructor
     public HarnessedSampleGetServiceResponseRouteBuilderTest() {
