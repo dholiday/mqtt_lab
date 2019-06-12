@@ -35,6 +35,34 @@ public class Properties {
             );
 
 
-    // ...
+    public static final DynamicStringProperty MQTT_TOPIC_PROPERTY =
+            getOrGetDynamicStringProperty(
+                    "mqtt.topic",
+                    "mqtt.topic.local"
+            );
+
+    public static final DynamicStringProperty MQTT_QOS_PROPERTY =
+            getOrGetDynamicStringProperty(
+                    "mqtt.qos",
+                    "mqtt.qos.local"
+            );
+
+    public static final DynamicStringProperty MQTT_BROKER_PROPERTY =
+            getOrGetDynamicStringProperty(
+                    "mqtt.broker",
+                    "mqtt.broker.local"
+            );
+
+    public static final DynamicStringProperty MQTT_PRODUCER_NAME_PROPERTY =
+            getOrGetDynamicStringProperty(
+                    "mqtt.producer.processor.name",
+                    "mqtt.producer.processor.name.local"
+            );
+
+    public static final DynamicStringProperty MQTT_CONSUMER_NAME_PROPERTY =
+            getOrGetDynamicStringProperty(
+                    "mqtt.consumer.processor.name",
+                    "mqtt.consumer.processor.name.local"
+            );
 
 }

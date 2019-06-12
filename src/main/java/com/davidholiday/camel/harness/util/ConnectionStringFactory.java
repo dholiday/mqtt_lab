@@ -3,6 +3,9 @@ package com.davidholiday.camel.harness.util;
 
 import com.davidholiday.camel.harness.config.Properties;
 
+import static com.davidholiday.camel.harness.context.AppContextLifecycle.VERNEMQ_CONSUMER_PROCESSOR;
+import static com.davidholiday.camel.harness.context.AppContextLifecycle.VERNEMQ_PRODUCER_PROCESSOR;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +29,8 @@ public class ConnectionStringFactory {
 
     public static final String SAMPLE_GET_SERVICE_RESPONSE_CONNECTION_STRING_KEY = "sampleGetServiceResponse";
 
+    public static final String BEAN_PREFIX = "bean:";
+
     /**
      *
      * @param key
@@ -33,14 +38,20 @@ public class ConnectionStringFactory {
      */
     public static Optional<String> getConnectionString(String key) {
 
-        switch (key) {
-
-            case SAMPLE_GET_SERVICE_RESPONSE_CONNECTION_STRING_KEY:
-                String sampleGetServiceSource = Properties.SAMPLE_GET_SERVICE_SOURCE_PROPERTY.getValue();
-                return Optional.of(sampleGetServiceSource);
-
-            default:
-                return Optional.empty();
+        // this is a set of ifs and not a switch block because java doesn't like switching on static final constants
+        // whose value is resolved at runtime
+        if (key == SAMPLE_GET_SERVICE_RESPONSE_CONNECTION_STRING_KEY) {
+            String sampleGetServiceSource = Properties.SAMPLE_GET_SERVICE_SOURCE_PROPERTY.getValue();
+            return Optional.of(sampleGetServiceSource);
+        }
+        else if (key == VERNEMQ_CONSUMER_PROCESSOR) {
+            return Optional.of(BEAN_PREFIX + VERNEMQ_CONSUMER_PROCESSOR);
+        }
+        else if (key == VERNEMQ_PRODUCER_PROCESSOR) {
+            return Optional.of(BEAN_PREFIX + VERNEMQ_PRODUCER_PROCESSOR);
+        }
+        else {
+            return Optional.empty();
         }
 
     }
