@@ -1,0 +1,20 @@
+#!/usr/bin/expect
+
+# for use with docker and django
+# handles the initial db setup interaction django requires to function
+#
+# MAINTAINER: David Holiday <dholiday@moesol.com>
+#
+
+spawn /bin/bash graphite-manage syncdb
+expect "Would you like to create one now? (yes/no):"
+send "yes\n"
+expect "Username (leave blank to use 'root'):"
+send "\n"
+expect "Email address:"
+send "\n"
+expect "Password:"
+send "password\n"
+expect "Password (again):"
+send "password\n"
+expect eod

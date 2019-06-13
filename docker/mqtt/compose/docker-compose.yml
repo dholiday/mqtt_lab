@@ -1,0 +1,16 @@
+# handles provisioning and management for a dockerized graphite server
+# maintainer: david holiday <dholiday@moesol.com>
+#
+
+postgres:
+    build: ../postgres/
+    container_name: postgres
+
+graphite:
+    build: ../graphite/
+    container_name: graphite
+    ports:
+      - 80:80
+      - 2003:2003
+    links: 
+      - postgres
