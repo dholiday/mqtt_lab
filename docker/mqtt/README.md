@@ -1,7 +1,7 @@
 
 
 
-dockerized graphite server
+dockerized vernemq with graphite and grafana 
 =======
 
 
@@ -10,7 +10,7 @@ dockerized graphite server
 
 what is?
 -------
-[Graphite][1] is a django application that receives and displays metrics data from various sources. [Docker][2] is a technology that allows you to package an application with all of its dependencies into a standardized unit (aka a container) for software development. What's here are the docker build files necessary to stand up and containerize a graphite server. 
+[Graphite][1] is a django application that receives and displays metrics data from various sources. [Docker][2] is a technology that allows you to package an application with all of its dependencies into a standardized unit (aka a container) for software development. What's here are the docker build files necessary to stand up and containerize a graphite server. Grafana is a front end to make graphite prettier. Vernemq is an MQTT broker. 
 
 
 what you need before you get started
@@ -82,8 +82,29 @@ then exit out of the container by typing
 
 > **exit**
 
-3) Open your browser and goto localhost. You should see the application. If you just synced the database and see a page indicating an internal server error, refresh the page. What you're looking for is evidence carbon has registered itself. If you don't see carbon listed under the Graphite folder on the left-hand side, wait 60seconds and refresh the page. Carbon, by default, will report to Graphite every 60s so if it hasn't shown up yet you probably just need to wait for the next report cycle to occur. 
+**3)** Open your browser and goto localhost. You should see the application. If you just synced the database and see a page indicating an internal server error, refresh the page. What you're looking for is evidence carbon has registered itself. If you don't see carbon listed under the Graphite folder on the left-hand side, wait 60seconds and refresh the page. Carbon, by default, will report to Graphite every 60s so if it hasn't shown up yet you probably just need to wait for the next report cycle to occur. 
 
+**4)** now we need to update a few configs in the vernemq container. login as root thusly:
+
+`docker exec -u 0 -it vernemq1 bash`
+
+then execute command:
+
+`vmq-admin cluster show`
+
+you should see a response that looks something like: 
+
+```sh
+root@785a8ea6f73e:/vernemq# vmq-admin cluster show
++------------------+-------+
+|       Node       |Running|
++------------------+-------+
+|VerneMQ@{SOME_IP@}| true  |
++------------------+-------+
+```
+
+w00t. now we need to enable metrics reporting to grpahite. take the node name listed in the table and run the following  command:
+`vmq-admin set graphite_host=$GRAPHITE_PORT_80_TCP_ADDR graphite_enabled=on -n VerneMQ@{IP_ADDRESS_FROM_PREVIOUS_STEP_HERE}`
 
 how to make it stop
 -------------------
@@ -96,7 +117,7 @@ From the **../dockerStuff** directory, type
 
 pimp your graphite ride
 -----------------------
-There's lots of neato-burrito stuff you can do to graphite to make it look cooler and do more stuff. You can log into your graphite server via the web interface by clinking the 'login' link in the upper right corner of the screen. [Here][7] are the graphite docs on working with dashboards and [here][8] is a list of ready-bake dashboards you can install. 
+There's lots of neato-burrito stuff you can do to graphite to make it look cooler and do more stuff. You can log into your graphite server via the web interface by clinking the 'login' link in the upper right corner of the screen. [Here][7] are the graphite docs on working with dashboards and [here][8] is a list of ready-bake dashboards you can install. (in this setup grafana has been provided for you) 
 
 troubleshooting 
 -----------------------
@@ -122,6 +143,9 @@ then
 > **exit**
 
 to log out of the container. Refresh the graphite webpage and try again. You should see metrics data at this point. 
+
+ - to log into a container (the vernemq one in particular) as root: 
+ `docker exec -u 0 -it vernemq1 bash`
 
   [1]: http://graphite.readthedocs.org/en/latest/
   [2]: http://www.docker.com/what-docker

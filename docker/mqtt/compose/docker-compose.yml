@@ -1,5 +1,5 @@
 # handles provisioning and management for a dockerized graphite server
-# maintainer: david holiday <dholiday@moesol.com>
+# maintainer: david holiday <dholiday@life360.com>
 #
 
 postgres:
@@ -10,7 +10,25 @@ graphite:
     build: ../graphite/
     container_name: graphite
     ports:
-      - 80:80
-      - 2003:2003
+      - 80
+      - 2003
     links: 
       - postgres
+
+grafana:
+  build: ../grafana/
+  container_name: grafana
+  ports:
+    - 3000:3000
+  links:
+    - graphite
+
+vernemq:
+  build: ../vernemq
+  container_name: vernemq1
+  ports:
+    - 1883:1883
+  links:
+    - graphite
+  environment:
+    - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on

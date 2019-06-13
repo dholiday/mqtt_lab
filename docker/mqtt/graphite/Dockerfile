@@ -1,8 +1,7 @@
 # for building a docker graphite metrics web application image
 # 
 FROM ubuntu:14.04
-MAINTAINER David Holiday <dholiday@moesol.com>
-
+MAINTAINER David Holiday <dholiday@life360.com>
 
 # grab needed libraries
 #

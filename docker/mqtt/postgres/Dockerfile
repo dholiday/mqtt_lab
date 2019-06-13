@@ -2,8 +2,7 @@
 # A GRAPHITE SERVER CONTAINER  
 #
 FROM postgres
-MAINTAINER David Holiday <dholiday@moesol.com>
-
+MAINTAINER David Holiday <dholiday@life360.com>
 
 # SETUP GRAPHITE USER CREDENTIALS
 #
