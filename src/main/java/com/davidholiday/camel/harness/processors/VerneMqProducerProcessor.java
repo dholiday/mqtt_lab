@@ -1,7 +1,10 @@
 package com.davidholiday.camel.harness.processors;
 
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.davidholiday.camel.harness.config.Properties;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
@@ -19,7 +22,11 @@ public class VerneMqProducerProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerneMqProducerProcessor.class.getName());
 
+    private  Integer ageOutCount = ThreadLocalRandom.current().nextInt(1, 999);
+
     public void process(Exchange exchange) {
+
+        ageOutCount --;
 
         String topic = Properties.MQTT_TOPIC_PROPERTY.get();
         String message_content = "mqtt_message_content";
@@ -39,8 +46,11 @@ public class VerneMqProducerProcessor implements Processor {
             mqttClient.publish(topic, mqttMessage);
             LOGGER.info("published to topic: {}    message {}", topic, message_content);
 
-            mqttClient.disconnect();
-            LOGGER.info("disconnected from broker: {}", broker);
+            if (ageOutCount < 1) {
+                mqttClient.disconnect();
+                LOGGER.info("disconnected from broker: {}", broker);
+                ageOutCount = ThreadLocalRandom.current().nextInt(1, 999);
+            }
 
         } catch(MqttException me) {
             LOGGER.error("reason "+me.getReasonCode());
@@ -51,5 +61,6 @@ public class VerneMqProducerProcessor implements Processor {
         }
 
     }
+
 
 }

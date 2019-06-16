@@ -1,6 +1,7 @@
 package com.davidholiday.camel.harness.routebuilders;
 
 
+import com.davidholiday.camel.harness.context.AppContextLifecycle;
 import com.davidholiday.camel.harness.routing.RouteBuilderHarness;
 import com.davidholiday.camel.harness.util.ConnectionStringFactory;
 
@@ -20,9 +21,12 @@ public class HarnessedMqttPublisherRouteBuilder extends RouteBuilderHarness {
         restConfiguration().component("servlet")
                            .dataFormatProperty("prettyPrint", "true");
 
-        String mqttConnectionString =ConnectionStringFactory.getConnectionStringOrThrow(
-                ConnectionStringFactory.VERNEMQ_CONNECTION_STRING_KEY
-        );
+//        String mqttConnectionString =ConnectionStringFactory.getConnectionStringOrThrow(
+//                ConnectionStringFactory.VERNEMQ_CONNECTION_STRING_KEY
+//        );
+
+        String mqttConnectionString = "bean:" + AppContextLifecycle.VERNEMQ_PRODUCER_PROCESSOR;
+
 
         /*
         routes
