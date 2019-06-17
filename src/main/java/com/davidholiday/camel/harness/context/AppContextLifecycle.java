@@ -74,10 +74,10 @@ public class AppContextLifecycle implements CamelContextLifecycle<JndiRegistry> 
                 new VerneMqProducerProcessor()
         );
 
-        registry.bind(
-                VERNEMQ_CONSUMER_PROCESSOR,
-                new VerneMqConsumerProcessor()
-        );
+//        registry.bind(
+//                VERNEMQ_CONSUMER_PROCESSOR,
+//                new VerneMqConsumerProcessor()
+//        );
 
 
     }

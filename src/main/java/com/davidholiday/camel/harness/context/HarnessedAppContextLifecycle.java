@@ -3,10 +3,13 @@ package com.davidholiday.camel.harness.context;
 
 import com.davidholiday.camel.harness.config.Properties;
 
-import com.davidholiday.camel.harness.routebuilders.HarnessedMqttConsumerRouteBuilder;
+import com.davidholiday.camel.harness.processors.VerneMqConsumerProcessor;
+//import com.davidholiday.camel.harness.routebuilders.HarnessedMqttConsumerRouteBuilder;
 import com.davidholiday.camel.harness.routebuilders.HarnessedMqttPublisherRouteBuilder;
 import com.davidholiday.camel.harness.routebuilders.HarnessedSampleGetServiceResponseRouteBuilder;
 
+import org.apache.camel.Processor;
+import org.apache.camel.Producer;
 import org.apache.camel.component.servletlistener.ServletCamelContext;
 
 import org.apache.camel.impl.JndiRegistry;
@@ -14,7 +17,9 @@ import org.apache.camel.impl.JndiRegistry;
 import com.davidholiday.camel.harness.context.AppContextLifecycleFunctionInterface;
 import com.davidholiday.camel.harness.context.AppContextLifecycleHarness;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,6 +28,7 @@ import java.util.Map;
  * the app is set up to use this class and thus will stop the sample route immediately after bootstrap is complete.
  */
 public class HarnessedAppContextLifecycle extends AppContextLifecycleHarness {
+
 
     // AppContextLifecycle object to be 'harnessed'
     private static AppContextLifecycle contextLifecycle = new AppContextLifecycle();
@@ -56,22 +62,29 @@ public class HarnessedAppContextLifecycle extends AppContextLifecycleHarness {
                     }
 
 
-                    // stop vernemq consumer route
-                    if (mqttConsumerRouteEnabled == false) {
-
-                        HarnessedMqttConsumerRouteBuilder harnessedMqttConsumerRouteBuilder =
-                                new HarnessedMqttConsumerRouteBuilder();
-
-                        fromRouteId = harnessedMqttConsumerRouteBuilder.getFromRouteId();
-                        if (contextLifecycle.getRouteStatus(fromRouteId) != null) {
-                            contextLifecycle.stopRoute(fromRouteId);
-                        }
-
-                        businessLogicRouteId = harnessedMqttConsumerRouteBuilder.getBusinessLogicRouteId();
-                        if (contextLifecycle.getRouteStatus(businessLogicRouteId) != null) {
-                            contextLifecycle.stopRoute(businessLogicRouteId);
+                    if (mqttConsumerRouteEnabled) {
+                        // dirty ...
+                        for (int i = 0; i < 4; i ++) {
+                            new VerneMqConsumerProcessor().process(null);
                         }
                     }
+
+//                    // stop vernemq consumer route
+//                    if (mqttConsumerRouteEnabled == false) {
+//
+//                        HarnessedMqttConsumerRouteBuilder harnessedMqttConsumerRouteBuilder =
+//                                new HarnessedMqttConsumerRouteBuilder();
+//
+//                        fromRouteId = harnessedMqttConsumerRouteBuilder.getFromRouteId();
+//                        if (contextLifecycle.getRouteStatus(fromRouteId) != null) {
+//                            contextLifecycle.stopRoute(fromRouteId);
+//                        }
+//
+//                        businessLogicRouteId = harnessedMqttConsumerRouteBuilder.getBusinessLogicRouteId();
+//                        if (contextLifecycle.getRouteStatus(businessLogicRouteId) != null) {
+//                            contextLifecycle.stopRoute(businessLogicRouteId);
+//                        }
+//                    }
 
                     // stop vernemq producer route
                     if (mqttProducerRouteEnabled == false) {

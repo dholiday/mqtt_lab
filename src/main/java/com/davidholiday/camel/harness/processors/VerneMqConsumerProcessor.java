@@ -29,8 +29,6 @@ public class VerneMqConsumerProcessor implements Processor {
 
     public void process(Exchange exchange) {
 
-        ageOutCount --;
-
         String topic = Properties.MQTT_TOPIC_PROPERTY.get();
         String broker = Properties.MQTT_BROKER_PROPERTY.get();
         String clientId = this.toString();
@@ -45,12 +43,6 @@ public class VerneMqConsumerProcessor implements Processor {
             mqttClient.subscribe(topic);
             LOGGER.info("connecting to topic: {}", topic);
             mqttClient.setCallback(new MessageHandler());
-
-            if (ageOutCount < 1) {
-                mqttClient.disconnect();
-                LOGGER.info("disconnected from broker: {}", broker);
-                ageOutCount = ThreadLocalRandom.current().nextInt(1, 999);
-            }
 
         } catch(MqttException me) {
             LOGGER.error("reason "+me.getReasonCode());
@@ -73,6 +65,10 @@ public class VerneMqConsumerProcessor implements Processor {
         public void messageArrived(String topic, MqttMessage message) throws Exception {
             LOGGER.info("message arrived on topic: {}", topic);
             LOGGER.info("message is: {}", new String(message.getPayload()));
+
+            ageOutCount --;
+
+
         }
 
         @Override
