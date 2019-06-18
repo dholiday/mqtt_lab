@@ -4,7 +4,7 @@ package com.davidholiday.camel.harness.context;
 import com.davidholiday.camel.harness.config.Properties;
 
 import com.davidholiday.camel.harness.processors.VerneMqConsumerProcessor;
-//import com.davidholiday.camel.harness.routebuilders.HarnessedMqttConsumerRouteBuilder;
+import com.davidholiday.camel.harness.routebuilders.HarnessedMqttConsumerRouteBuilder;
 import com.davidholiday.camel.harness.routebuilders.HarnessedMqttPublisherRouteBuilder;
 import com.davidholiday.camel.harness.routebuilders.HarnessedSampleGetServiceResponseRouteBuilder;
 
@@ -62,29 +62,29 @@ public class HarnessedAppContextLifecycle extends AppContextLifecycleHarness {
                     }
 
 
-                    if (mqttConsumerRouteEnabled) {
-                        // dirty ...
-                        for (int i = 0; i < 4; i ++) {
-                            new VerneMqConsumerProcessor().process(null);
-                        }
-                    }
-
-//                    // stop vernemq consumer route
-//                    if (mqttConsumerRouteEnabled == false) {
-//
-//                        HarnessedMqttConsumerRouteBuilder harnessedMqttConsumerRouteBuilder =
-//                                new HarnessedMqttConsumerRouteBuilder();
-//
-//                        fromRouteId = harnessedMqttConsumerRouteBuilder.getFromRouteId();
-//                        if (contextLifecycle.getRouteStatus(fromRouteId) != null) {
-//                            contextLifecycle.stopRoute(fromRouteId);
-//                        }
-//
-//                        businessLogicRouteId = harnessedMqttConsumerRouteBuilder.getBusinessLogicRouteId();
-//                        if (contextLifecycle.getRouteStatus(businessLogicRouteId) != null) {
-//                            contextLifecycle.stopRoute(businessLogicRouteId);
+//                    if (mqttConsumerRouteEnabled) {
+//                        // dirty ...
+//                        for (int i = 0; i < 4; i ++) {
+//                            new VerneMqConsumerProcessor().process(null);
 //                        }
 //                    }
+
+                    // stop vernemq consumer route
+                    if (mqttConsumerRouteEnabled == false) {
+
+                        HarnessedMqttConsumerRouteBuilder harnessedMqttConsumerRouteBuilder =
+                                new HarnessedMqttConsumerRouteBuilder();
+
+                        fromRouteId = harnessedMqttConsumerRouteBuilder.getFromRouteId();
+                        if (contextLifecycle.getRouteStatus(fromRouteId) != null) {
+                            contextLifecycle.stopRoute(fromRouteId);
+                        }
+
+                        businessLogicRouteId = harnessedMqttConsumerRouteBuilder.getBusinessLogicRouteId();
+                        if (contextLifecycle.getRouteStatus(businessLogicRouteId) != null) {
+                            contextLifecycle.stopRoute(businessLogicRouteId);
+                        }
+                    }
 
                     // stop vernemq producer route
                     if (mqttProducerRouteEnabled == false) {

@@ -63,7 +63,7 @@
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-paho</artifactId>
-      <version><!--${camel.version}-->3.0.0-SNAPSHOT</version>
+      <version>${camel.version}</version>
     </dependency>
 
     <dependency>

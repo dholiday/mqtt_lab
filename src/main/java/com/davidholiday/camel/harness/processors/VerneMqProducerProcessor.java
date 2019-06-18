@@ -26,7 +26,7 @@ public class VerneMqProducerProcessor implements Processor {
 
     public void process(Exchange exchange) {
 
-        ageOutCount --;
+        //ageOutCount --;
 
         String topic = Properties.MQTT_TOPIC_PROPERTY.get();
         String message_content = "mqtt_message_content";
@@ -45,12 +45,19 @@ public class VerneMqProducerProcessor implements Processor {
             mqttMessage.setQos(quality_of_service);
             mqttClient.publish(topic, mqttMessage);
             LOGGER.info("published to topic: {}    message {}", topic, message_content);
+            mqttClient.disconnect();
 
-            if (ageOutCount < 1) {
-                mqttClient.disconnect();
-                LOGGER.info("disconnected from broker: {}", broker);
-                ageOutCount = ThreadLocalRandom.current().nextInt(1, 999);
-            }
+//            if (ageOutCount < 1) {
+//                mqttClient.disconnect();
+//                LOGGER.info("disconnected from broker: {} due to ageout", broker);
+//                ageOutCount = ThreadLocalRandom.current().nextInt(1, 999);
+//
+//
+//                mqttClient = new MqttClient(broker, clientId, memoryPersistence);
+//                connOpts = new MqttConnectOptions();
+//                mqttClient.connect(connOpts);
+//                LOGGER.info("reconnected to broker: {}", broker);
+//            }
 
         } catch(MqttException me) {
             LOGGER.error("reason "+me.getReasonCode());
